@@ -96,7 +96,15 @@ const login = async (request, reply) => {
     }
 
     if (!user.isVerified) {
-      return response.bad('User not varification !, cek code in your email ' + user.email, reply)
+      // return response.bad('User not varification !, cek code in your email ' + user.email, reply)
+      return reply
+        .code(500)
+        .header('Content-Type', 'application/json; charset=utf-8')
+        .send({
+          status: false,
+          message: 'User not varification !, cek code in your email ' + user.email,
+          isVerified: false
+        })
     }
     if (!user.isActive) {
       return response.bad('User not active', reply)
